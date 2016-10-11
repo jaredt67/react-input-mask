@@ -749,6 +749,15 @@ var InputElement = React.createClass({
             this.props.onBlur(event);
         }
     },
+    onClick: function (event) {
+        if (this.getCaretPos() === 0 || this.getCaretPos() > this.getFilledLength()) {
+            this.setCaretToEnd();
+        }
+
+        if (typeof this.props.onClick === "function") {
+            this.props.onClick(event);
+        }
+    },
     onPaste: function (event) {
         if (this.isAndroidBrowser) {
             this.pasteSelection = this.getSelection();
@@ -818,7 +827,7 @@ var InputElement = React.createClass({
         var props = _objectWithoutProperties(_props, ["mask", "alwaysShowMask", "maskChar", "formatChars"]);
 
         if (this.mask) {
-            var handlersKeys = ["onFocus", "onBlur", "onChange", "onKeyDown", "onKeyPress", "onPaste"];
+            var handlersKeys = ["onClick", "onFocus", "onBlur", "onChange", "onKeyDown", "onKeyPress", "onPaste"];
             handlersKeys.forEach(function (key) {
                 props[key] = _this7[key];
             });
